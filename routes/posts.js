@@ -7,13 +7,22 @@ const { User } = require("../models/user");
 
 // DON'T FORGET TO ADD AUTH **
 
-router.get("/followers/:id", async (req, res) => {
+router.get("/followers/:id/:page/:size", async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   const posts = await Post.where("ownerId")
     .in(user.followers)
-    .populate("ownerId");
+    .populate("ownerId")
+    .limit(req.params.size)
+    .skip(req.params.size * (req.params.page - 1));
+
   // const posts = await Post.findOne({ _id: req.params.id }).populate("ownerId");
-  res.send(posts);
+  res.send({
+    posts,
+    pagination: {
+      page: req.params.page,
+      size: req.params.size
+    }
+  });
   // console.log(posts);
 });
 
