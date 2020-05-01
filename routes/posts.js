@@ -35,15 +35,22 @@ var upload = multer({ dest: "./", storage: storage, fileFilter: fileFilter });
 
 // DON'T FORGET TO ADD AUTH **
 
-router.get("/followers/:id", async (req, res) => {
+router.get("/followers/:id/:page/:size", async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   const posts = await Post.where("userId")
-    .in(user.following)
+    .in(user.followers)
     .sort({ date: "desc" })
-    .populate("userId");
-  // const posts = await Post.findOne({ _id: req.params.id }).populate("userId");
-  res.send(posts);
-  // console.log(posts);
+    .populate("userId")
+    .limit(req.params.size)
+    .skip(req.params.size * (req.params.page - 1));
+    
+  res.send({
+    posts,
+    pagination: {
+      page: req.params.page,
+      size: req.params.size
+    }
+  });
 });
 
 router.get("/:id", async (req, res) => {
