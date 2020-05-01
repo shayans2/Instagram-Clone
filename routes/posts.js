@@ -38,7 +38,7 @@ var upload = multer({ dest: "./", storage: storage, fileFilter: fileFilter });
 router.get("/followers/:id/:page/:size", async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   const posts = await Post.where("userId")
-    .in(user.followers)
+    .in(user.following)
     .sort({ date: "desc" })
     .populate("userId")
     .limit(req.params.size)
