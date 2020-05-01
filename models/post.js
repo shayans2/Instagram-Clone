@@ -2,25 +2,25 @@ const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 
 const postSchema = new mongoose.Schema({
-  ownerId: {
-    // type: String,
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    // required: true,
+    required: true,
     ref: "User",
   },
-  // ownerIdAsString: { type: String, required: true },
-  postLocation: { type: String, required: true },
+  location: { type: String, required: true },
   postImage: { type: String, required: true },
-  postCaption: { type: String, required: true },
-  likedBy: { type: Array },
+  caption: { type: String, required: true },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  // likedBy: { type: Array },
+  date: { type: Date, default: Date.now },
 });
 
 const validatePost = (post) => {
   const schema = Joi.object({
-    ownerId: Joi.string().required(),
-    postLocation: Joi.string().required(),
-    postImage: Joi.string().required(),
-    postCaption: Joi.string().required(),
+    userId: Joi.string().required(),
+    location: Joi.string().required(),
+    postImage: Joi.string(),
+    caption: Joi.string().required(),
   });
   return schema.validate(post);
 };
