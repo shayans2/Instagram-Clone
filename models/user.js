@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Joi = require("@hapi/joi");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
@@ -26,7 +25,7 @@ const userSchema = new mongoose.Schema({
   profileImage: {
     type: String,
     required: true,
-    default: "http://localhost:4000/uploads/default-profile.jpg",
+    default: `${config.get("URL")}uploads/default-profile.jpg`,
   },
   biography: { type: String, maxlength: 255 },
   website: { type: String, maxlength: 1024, lowercase: true, trim: true },
@@ -58,20 +57,6 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-const validateUser = (user) => {
-  const schema = Joi.object({
-    fullname: Joi.string().min(3).max(50).required(),
-    username: Joi.string().min(3).max(50).lowercase().trim().required(),
-    profileImage: Joi.string(),
-    biography: Joi.string().max(255),
-    website: Joi.string().max(1024).lowercase().trim(),
-    email: Joi.string().min(3).max(255).lowercase().trim().email().required(),
-    password: Joi.string().min(5).required(),
-  });
-  return schema.validate(user);
-};
-
 const User = mongoose.model("User", userSchema);
 
 module.exports.User = User;
-module.exports.validate = validateUser;
