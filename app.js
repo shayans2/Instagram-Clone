@@ -10,7 +10,7 @@ const comments = require("./routes/comments");
 
 // Database Config
 mongoose
-  .connect("mongodb://localhost/instagram", {
+  .connect(config.get("db"), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
