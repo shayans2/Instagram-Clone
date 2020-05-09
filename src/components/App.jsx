@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { createStore, applyMiddleware, compose } from "redux";
 import reduxThunk from "redux-thunk";
 import { history } from "../history";
@@ -29,18 +29,18 @@ const store = createStore(
 const App = () => (
   <Router history={history}>
     <Provider store={store}>
-      <Route exact path="/signup" component={Signup} />
-      <Route exact path="/login" component={Login} />
-      {/* <Route exact path="/dashboard" component={Dashboard} /> */}
-      <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-      <ProtectedRoute exact path="/post/new" component={PostForm} />
-      <ProtectedRoute exact path="/settings" component={Settings} />
-      <Route exact path="/posts/:id" component={SinglePost} />
-      <Route exact path="/profile/:id" component={Profile} />
-
-      <Route path="/not-found" component={NotFound} />
-      {/* <Redirect exact from="/" to="/login" /> */}
-      {/* <Redirect to="/not-found" /> */}
+      <Switch>
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/login" component={Login} />
+        <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+        <ProtectedRoute exact path="/post/new" component={PostForm} />
+        <ProtectedRoute exact path="/settings" component={Settings} />
+        <Route exact path="/posts/:id" component={SinglePost} />
+        <Route exact path="/profile/:id" component={Profile} />
+        <Route path="/not-found" component={NotFound} />
+        <Redirect exact from="/" to="/login" />
+        <Redirect to="/not-found" />
+      </Switch>
     </Provider>
   </Router>
 );
