@@ -22,7 +22,7 @@ const Signup = ({ userSignup, handleSubmit, errors }) => {
           placeholder="Password"
           minLength="5"
         />
-        <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
+        <RenderButton text="Sign up" bgColor="blue" textColor="white" />
       </form>
     );
   };

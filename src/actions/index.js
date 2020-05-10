@@ -26,8 +26,7 @@ export const userSignup = (formValues) => async (dispatch) => {
     const response = await httpService.post("/users/new", formValues);
     dispatch({
       type: USER_SIGNUP_SUCCESS,
-      payload: response.data,
-      // payload: response.headers.get("x-auth-token"),
+      payload: response.headers["x-auth-token"],
     });
     history.push("/dashboard");
   } catch (err) {
@@ -38,7 +37,10 @@ export const userSignup = (formValues) => async (dispatch) => {
 export const userLogin = (formValues) => async (dispatch) => {
   try {
     const response = await httpService.post("/auth/", formValues);
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: response.data });
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: response.headers["x-auth-token"],
+    });
     history.push("/dashboard");
   } catch (err) {
     dispatch({ type: USER_LOGIN_FAIL, payload: err.response });
@@ -53,8 +55,11 @@ export const userEdit = (formValues, userId) => async (dispatch) => {
 
   try {
     const response = await httpService.put(`/users/edit/${userId}`, formData);
-    dispatch({ type: USER_EDIT_SUCCESS, payload: response.data });
-    history.push("/dashboard");
+    dispatch({
+      type: USER_EDIT_SUCCESS,
+      payload: response.headers["x-auth-token"],
+    });
+    window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: USER_EDIT_FAIL, payload: err.response });
   }
@@ -98,7 +103,7 @@ export const newPost = (formValues, userId) => async (dispatch) => {
   try {
     const response = await httpService.post(`/posts/new`, formData);
     dispatch({ type: NEW_POST_SUCCESS, payload: response.data });
-    history.push("/dashboard");
+    window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: NEW_POST_FAIL, payload: err.response });
   }
