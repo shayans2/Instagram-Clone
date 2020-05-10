@@ -15,7 +15,7 @@ const validationService = (type, data) => {
       schema = Joi.object({
         userId: Joi.string().required(),
         location: Joi.string().required(),
-        postImage: Joi.string().required(),
+        postImage: Joi.string(),
         caption: Joi.string().required(),
       });
       break;

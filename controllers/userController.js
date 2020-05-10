@@ -55,7 +55,7 @@ class UserController {
       let username = await User.findOne({ username: req.body.username });
       if (username) return res.status(400).send("Username already exists.");
 
-      user = new User(
+      let user = new User(
         _.pick(req.body, ["fullname", "username", "email", "password"])
       );
       const salt = await bcrypt.genSalt(10);
@@ -64,9 +64,10 @@ class UserController {
 
       const token = user.generateAuthToken();
       res
+        .status(200)
         .header("x-auth-token", token)
         .header("access-control-expose-headers", "x-auth-token")
-        .send(token);
+        .send(_.pick(user, ["_id", "name", "email"]));
     } catch (err) {
       res.status(500).send(err);
       console.log(err);
@@ -115,9 +116,10 @@ class UserController {
 
       const token = user.generateAuthToken();
       res
+        .status(200)
         .header("x-auth-token", token)
         .header("access-control-expose-headers", "x-auth-token")
-        .send(token);
+        .send(_.pick(user, ["_id", "name", "email"]));
     } catch (err) {
       res.status(500).send(err);
       console.log(err);
