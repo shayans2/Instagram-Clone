@@ -28,8 +28,8 @@ class UserService {
       await User.findByIdAndUpdate(
         req.body.followerId,
         req.params.type === "follow"
-          ? { $addToSet: { followers: req.params.id } }
-          : { $pull: { followers: req.params.id } },
+          ? { $addToSet: { following: req.params.id } }
+          : { $pull: { following: req.params.id } },
         {
           new: true,
         }

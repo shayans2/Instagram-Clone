@@ -19,7 +19,6 @@ class PostService {
       .populate("userId")
       .limit(limit * 1)
       .skip(limit * (page - 1));
-
     res.send({ posts, postsCount, page });
     try {
     } catch (err) {
