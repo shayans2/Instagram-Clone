@@ -1,13 +1,13 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
-const validationService = require("../services/validation");
+const validationService = require("../utility/validation");
 const config = require("config");
 const Jimp = require("jimp");
 const sizeOf = require("image-size");
 const fs = require("fs");
 const _ = require("lodash");
 
-class UserController {
+class UserService {
   async fetchUser(req, res) {
     const user = await User.findById(req.params.id).select("-password");
     res.send(user);
@@ -127,4 +127,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+module.exports = new UserService();

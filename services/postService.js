@@ -1,12 +1,12 @@
 const { Post } = require("../models/post");
 const { User } = require("../models/user");
-const validationService = require("../services/validation");
+const validationService = require("../utility/validation");
 const config = require("config");
 const Jimp = require("jimp");
 const sizeOf = require("image-size");
 const fs = require("fs");
 
-class PostController {
+class PostService {
   async fetchTimeline(req, res) {
     const { page = 1, limit = 5 } = req.params;
     const user = await User.findById(req.params.id).select("-password");
@@ -106,4 +106,4 @@ class PostController {
   }
 }
 
-module.exports = new PostController();
+module.exports = new PostService();

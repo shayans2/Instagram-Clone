@@ -1,17 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const postController = require("../controllers/postController");
+const PostService = require("../services/postService");
 const auth = require("../middlewares/auth");
+const validateObjectId = require("../middlewares/validateObjectId");
 const postImage = require("../config/multer");
 
-router.get("/followers/:id/:page/:limit", auth, postController.fetchTimeline);
-router.get("/:id", auth, postController.fetchSinglePost);
-router.get("/profile/:id", postController.fetchProfilePosts);
+router.get(
+  "/followers/:id/:page/:limit",
+  [auth, validateObjectId],
+  PostService.fetchTimeline
+);
+router.get("/:id", [auth, validateObjectId], PostService.fetchSinglePost);
+router.get("/profile/:id", validateObjectId, PostService.fetchProfilePosts);
 router.post(
   "/new",
-  [auth, postImage.single("postImage")],
-  postController.newPost
+  [auth, validateObjectId, postImage.single("postImage")],
+  PostService.newPost
 );
-router.put("/:type/:id", auth, postController.handleLike);
+router.put("/:type/:id", [auth, validateObjectId], PostService.handleLike);
 
 module.exports = router;

@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const commentController = require("../controllers/commentController");
+const CommentService = require("../services/commentService");
+const auth = require("../middlewares/auth");
+const validateObjectId = require("../middlewares/validateObjectId");
 
-router.get("/posts/:id", commentController.fetchComment);
-router.post("/new", commentController.new);
+router.get("/posts/:id", validateObjectId, CommentService.fetchComment);
+router.post("/new", [auth, validateObjectId], CommentService.new);
 
 module.exports = router;

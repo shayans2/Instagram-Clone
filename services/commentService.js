@@ -1,9 +1,9 @@
-const validationService = require("../services/validation");
+const validationService = require("../utility/validation");
 const { Comment } = require("../models/comment");
 const { User } = require("../models/user");
 const { Post } = require("../models/post");
 
-class CommentController {
+class CommentService {
   async fetchComment(req, res) {
     const comment = await Comment.find({ postId: req.params.id }).populate(
       "userId"
@@ -30,4 +30,4 @@ class CommentController {
   }
 }
 
-module.exports = new CommentController();
+module.exports = new CommentService();

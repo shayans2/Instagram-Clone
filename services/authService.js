@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const validationService = require("../services/validation");
+const validationService = require("../utility/validation");
 const { User } = require("../models/user");
 
-class authController {
+class AuthService {
   async userAuth(req, res) {
     const { error } = validationService("auth", req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -26,4 +26,4 @@ class authController {
   }
 }
 
-module.exports = new authController();
+module.exports = new AuthService();
