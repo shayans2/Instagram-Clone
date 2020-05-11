@@ -35,8 +35,8 @@ export const postReducer = (state = initialState, action) => {
     case NEW_POST_SUCCESS:
       return {
         ...state,
-        dashboardPosts: {
-          ...state.dashboardPosts,
+        timeline: {
+          ...state.timeline,
           [action.payload._id]: action.payload,
         },
       };
@@ -50,8 +50,8 @@ export const postReducer = (state = initialState, action) => {
     case HANDLE_POST_LIKE:
       return {
         ...state,
-        dashboardPosts: {
-          ...state.dashboardPosts,
+        timeline: {
+          ...state.timeline,
           [action.payload._id]: action.payload,
         },
         singlePost: {
