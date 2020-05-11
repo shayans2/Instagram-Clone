@@ -1,16 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { userEdit } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
-import {
-  RenderInput,
-  RenderTextArea,
-  RenderUploader,
-  RenderButton,
-} from "./common/RenderForm";
+import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
+import { settingsValidation } from "../utility/formValidation";
 
 class Settings extends Component {
   onSubmit = (formValues) => {
@@ -27,11 +23,19 @@ class Settings extends Component {
           buttonText="Change Profile Picture"
           currentImage={getCurrentUser().profileImage}
         />
-        <RenderInput name="fullname" placeholder="Full Name" />
-        <RenderInput name="username" placeholder="Username" disabled />
-        <RenderTextArea name="biography" placeholder="Bio" />
-        <RenderInput name="website" placeholder="Website" />
-        <RenderInput name="email" placeholder="Email" />
+        <Field name="fullname" component={renderInput} label="Full name" />
+        <Field name="username" component={renderInput} label="Username" />
+        <label className="font-semibold text-gray-800 text-sm">Bio</label>
+        <Field
+          className="mt-1 mb-2 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
+          type="text"
+          name="biography"
+          component="textarea"
+          placeholder="Bio"
+          maxLength="400"
+        />
+        <Field name="website" component={renderInput} label="Website" />
+        <Field name="email" component={renderInput} label="Email" />
         <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
       </form>
     );
@@ -84,5 +88,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { userEdit })(
   reduxForm({
     form: "settingsForm",
+    validate: settingsValidation,
   })(Settings)
 );

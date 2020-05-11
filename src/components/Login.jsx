@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { userLogin } from "../actions";
 import { Link } from "react-router-dom";
-import { RenderInput, RenderButton } from "./common/RenderForm";
+import { RenderButton, renderInput } from "./common/RenderForm";
 import authService from "../services/authService";
+import { loginValidation } from "../utility/formValidation";
 
 class Login extends Component {
   componentDidMount() {
@@ -18,12 +19,12 @@ class Login extends Component {
   renderForm = () => {
     return (
       <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-        <RenderInput name="email" type="email" placeholder="Email" />
-        <RenderInput
+        <Field name="email" component={renderInput} label="Email" />
+        <Field
           name="password"
           type="password"
-          placeholder="Password"
-          minLength="5"
+          component={renderInput}
+          label="Password"
         />
         <RenderButton text="Log In" bgColor="blue" textColor="white" />
       </form>
@@ -48,9 +49,8 @@ class Login extends Component {
             Instagram Clone
           </h1>
           <div className="p-8">
-            {this.props.errors.ex && this.renderError}
+            {this.props.errors.ex && this.renderError()}
             {this.renderForm()}
-
             <p className="text-center text-blue-800 mt-5 font-light text-xs">
               Forgot password?
             </p>
@@ -80,5 +80,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { userLogin })(
   reduxForm({
     form: "loginForm",
+    validate: loginValidation,
   })(Login)
 );

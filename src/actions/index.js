@@ -7,7 +7,7 @@ import {
   USER_EDIT_FAIL,
   FETCH_CURRENT_USER,
   FETCH_USER,
-  FETCH_DASHBOARD_POSTS,
+  FETCH_TIMELINE,
   FETCH_POST,
   NEW_POST_SUCCESS,
   NEW_POST_FAIL,
@@ -18,8 +18,7 @@ import {
   FETCH_PROFILE_POSTS,
   HANDLE_USER_FOLLOW,
 } from "./types";
-import httpService from "../services/main";
-import { history } from "../history";
+import httpService from "../services/httpService";
 
 export const userSignup = (formValues) => async (dispatch) => {
   try {
@@ -28,7 +27,7 @@ export const userSignup = (formValues) => async (dispatch) => {
       type: USER_SIGNUP_SUCCESS,
       payload: response.headers["x-auth-token"],
     });
-    history.push("/dashboard");
+    window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: USER_SIGNUP_FAIL, payload: err.response });
   }
@@ -41,7 +40,7 @@ export const userLogin = (formValues) => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: response.headers["x-auth-token"],
     });
-    history.push("/dashboard");
+    window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: USER_LOGIN_FAIL, payload: err.response });
   }
@@ -74,13 +73,13 @@ export const fetchUser = (userId) => async (dispatch) => {
   dispatch({ type: FETCH_USER, payload: response.data });
 };
 
-export const fetchDashboardPosts = (userId, currentPage, pageSize) => async (
+export const fetchTimeline = (userId, currentPage, pageSize) => async (
   dispatch
 ) => {
   const response = await httpService.get(
     `/posts/followers/${userId}/${currentPage}/${pageSize}`
   );
-  dispatch({ type: FETCH_DASHBOARD_POSTS, payload: response.data });
+  dispatch({ type: FETCH_TIMELINE, payload: response.data });
 };
 
 export const fetchPost = (postId) => async (dispatch) => {

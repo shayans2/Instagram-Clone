@@ -2,44 +2,28 @@ import React, { Fragment } from "react";
 import { Field } from "redux-form";
 import Upload from "./Upload";
 
-export const RenderInput = ({ name, placeholder, type = "text", ...rest }) => {
-  return (
-    <Fragment>
-      <label htmlFor={name} className="font-semibold text-gray-800 text-sm">
-        {placeholder}
-      </label>
-      <Field
-        className="mt-1 mb-4 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
-        type={type}
-        name={name}
-        id={name}
-        component="input"
-        placeholder={placeholder}
-        {...rest}
-      />
-    </Fragment>
-  );
-};
+export const renderInput = ({
+  input,
+  label,
+  type,
+  meta: { touched, error },
+}) => (
+  <Fragment>
+    <label className="font-semibold text-gray-800 text-sm">{label}</label>
+    <input
+      {...input}
+      placeholder={label}
+      type={type}
+      className="mt-1 mb-4 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
+    />
+    {touched && error && (
+      <div className="font-semibold bg-red-200 h-auto p-2 rounded-sm text-red-700 text-xs mb-4">
+        {error}
+      </div>
+    )}
+  </Fragment>
+);
 
-export const RenderTextArea = ({ name, placeholder, maxLength, ...rest }) => {
-  return (
-    <Fragment>
-      <label htmlFor={name} className="font-semibold text-gray-800 text-sm">
-        {placeholder}
-      </label>
-      <Field
-        className="mt-1 mb-6 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
-        type="text"
-        name={name}
-        id={name}
-        component="textarea"
-        placeholder={placeholder}
-        maxLength={maxLength}
-        {...rest}
-      />
-    </Fragment>
-  );
-};
 export const RenderUploader = ({
   name,
   imageClassname,
@@ -58,6 +42,7 @@ export const RenderUploader = ({
     />
   );
 };
+
 export const RenderButton = ({ text, bgColor, textColor }) => {
   return (
     <button

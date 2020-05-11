@@ -3,6 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { fetchComments, postComment } from "../../actions";
 import { getCurrentUser } from "../../services/authService";
+import { RenderButton } from "../common/RenderForm";
 
 class Comments extends Component {
   componentDidMount() {
@@ -42,9 +43,7 @@ class Comments extends Component {
             placeholder="Write your comment"
             maxLength="400"
           />
-          <button className="bg-blue-600 text-white font-bold text-sm py-2 px-4 rounded w-full">
-            Send
-          </button>
+          <RenderButton text="Send" bgColor="blue" textColor="white" />
         </form>
       </div>
     );

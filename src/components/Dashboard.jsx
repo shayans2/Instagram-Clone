@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { fetchDashboardPosts } from "../actions";
+import { fetchTimeline } from "../actions";
 import { getCurrentUser } from "../services/authService";
 import Post from "./common/Post";
 import Navigation from "./common/Navigation";
@@ -9,7 +9,7 @@ import Sidebar from "./common/Sidebar";
 
 class Dashboard extends Component {
   componentDidMount() {
-    this.props.fetchDashboardPosts(
+    this.props.fetchTimeline(
       getCurrentUser()._id,
       this.props.currentPage,
       this.props.pageSize
@@ -62,7 +62,7 @@ class Dashboard extends Component {
                   : "inline-block border border-gray rounded hover:border-gray-400 text-blue-500 bg-gray-200 py-1 px-3 cursor-pointer"
               }
               onClick={() =>
-                this.props.fetchDashboardPosts(
+                this.props.fetchTimeline(
                   getCurrentUser()._id,
                   page,
                   this.props.pageSize
@@ -97,11 +97,11 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    posts: Object.values(state.posts.dashboardPosts),
-    postsCount: state.posts.dashboardPostsCount,
+    posts: Object.values(state.posts.timeline),
+    postsCount: state.posts.timelinePostsCount,
     currentPage: state.posts.currentPage,
     pageSize: state.posts.pageSize,
   };
 };
 
-export default connect(mapStateToProps, { fetchDashboardPosts })(Dashboard);
+export default connect(mapStateToProps, { fetchTimeline })(Dashboard);

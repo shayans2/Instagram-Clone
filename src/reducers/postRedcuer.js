@@ -1,5 +1,5 @@
 import {
-  FETCH_DASHBOARD_POSTS,
+  FETCH_TIMELINE,
   FETCH_POST,
   HANDLE_POST_LIKE,
   NEW_POST_SUCCESS,
@@ -7,8 +7,8 @@ import {
 } from "../actions/types";
 import _ from "lodash";
 const initialState = {
-  dashboardPosts: [],
-  dashboardPostsCount: null,
+  timeline: [],
+  timelinePostsCount: null,
   singlePost: [],
   profilePosts: [],
   currentPage: 1,
@@ -17,11 +17,11 @@ const initialState = {
 
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_DASHBOARD_POSTS:
+    case FETCH_TIMELINE:
       return {
         ...state,
-        dashboardPosts: _.mapKeys(action.payload.posts, "_id"),
-        dashboardPostsCount: action.payload.postsCount,
+        timeline: _.mapKeys(action.payload.posts, "_id"),
+        timelinePostsCount: action.payload.postsCount,
         currentPage: parseInt(action.payload.page),
       };
     case FETCH_POST:

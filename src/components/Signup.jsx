@@ -1,9 +1,10 @@
 import React from "react";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { userSignup } from "../actions";
 import { Link } from "react-router-dom";
-import { RenderInput, RenderButton } from "./common/RenderForm";
+import { RenderButton, renderInput } from "./common/RenderForm";
+import { signupValidation } from "../utility/formValidation";
 
 const Signup = ({ userSignup, handleSubmit, errors }) => {
   const onSubmit = (formValues) => {
@@ -13,14 +14,14 @@ const Signup = ({ userSignup, handleSubmit, errors }) => {
   const renderForm = () => {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <RenderInput name="fullname" placeholder="Full Name" />
-        <RenderInput name="username" placeholder="Username" />
-        <RenderInput name="email" type="email" placeholder="Email" />
-        <RenderInput
+        <Field name="fullname" component={renderInput} label="Full name" />
+        <Field name="username" component={renderInput} label="Username" />
+        <Field name="email" component={renderInput} label="Email" />
+        <Field
           name="password"
           type="password"
-          placeholder="Password"
-          minLength="5"
+          component={renderInput}
+          label="Password"
         />
         <RenderButton text="Sign up" bgColor="blue" textColor="white" />
       </form>
@@ -56,7 +57,6 @@ const Signup = ({ userSignup, handleSubmit, errors }) => {
           </p>
         </div>
       </div>
-
       <div className="bg-white shadow-sm p-6 border border-gray-400 mt-3">
         <p className="text-center text-gray-800 font-light text-xs">
           Have an account?
@@ -79,5 +79,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { userSignup })(
   reduxForm({
     form: "signupForm",
+    validate: signupValidation,
   })(Signup)
 );

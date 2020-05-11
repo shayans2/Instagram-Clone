@@ -1,16 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { newPost } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
-import {
-  RenderInput,
-  RenderTextArea,
-  RenderUploader,
-  RenderButton,
-} from "./common/RenderForm";
+import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 
 class PostForm extends Component {
   state = {
@@ -44,11 +39,21 @@ class PostForm extends Component {
   renderStageTwo = () => {
     return (
       <Fragment>
-        <RenderInput name="location" placeholder="Picture Location" />
-        <RenderTextArea
+        <Field
+          name="location"
+          component={renderInput}
+          label="Picture Location"
+        />
+        <label className="font-semibold text-gray-800 text-sm">
+          Post caption
+        </label>
+        <Field
+          className="mt-1 mb-2 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
+          type="text"
           name="caption"
-          placeholder="Post Caption"
-          maxLength="255"
+          component="textarea"
+          placeholder="Post caption"
+          maxLength="400"
         />
         <RenderButton text="Post" bgColor="blue" textColor="white" />
         <p
