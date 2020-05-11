@@ -5,6 +5,6 @@ const auth = require("../middlewares/auth");
 const validateObjectId = require("../middlewares/validateObjectId");
 
 router.get("/posts/:id", validateObjectId, CommentService.fetchComment);
-router.post("/new", [auth, validateObjectId], CommentService.new);
+router.post("/new", auth, CommentService.new);
 
 module.exports = router;

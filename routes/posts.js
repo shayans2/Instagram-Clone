@@ -12,11 +12,7 @@ router.get(
 );
 router.get("/:id", [auth, validateObjectId], PostService.fetchSinglePost);
 router.get("/profile/:id", validateObjectId, PostService.fetchProfilePosts);
-router.post(
-  "/new",
-  [auth, validateObjectId, postImage.single("postImage")],
-  PostService.newPost
-);
+router.post("/new", [auth, postImage.single("postImage")], PostService.newPost);
 router.put("/:type/:id", [auth, validateObjectId], PostService.handleLike);
 
 module.exports = router;
