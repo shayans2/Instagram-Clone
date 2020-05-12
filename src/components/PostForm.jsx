@@ -116,5 +116,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { newPost })(
   reduxForm({
     form: "newPostForm",
+    enableReinitialize: true,
   })(PostForm)
 );
