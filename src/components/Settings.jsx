@@ -8,14 +8,14 @@ import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 import { settingsValidation } from "../utility/formValidation";
 
-class Settings extends Component {
-  onSubmit = (formValues) => {
-    this.props.userEdit(formValues, getCurrentUser()._id);
+const Settings = ({ errors, userEdit, handleSubmit }) => {
+  const onSubmit = (formValues) => {
+    userEdit(formValues, getCurrentUser()._id);
   };
 
-  renderForm = () => {
+  const renderForm = () => {
     return (
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <RenderUploader
           name="profileImage"
           imageClassname="h-24 w-24 rounded-full mx-auto mt-4 mb-2"
@@ -41,39 +41,37 @@ class Settings extends Component {
     );
   };
 
-  renderError = () => {
+  const renderError = () => {
     return (
       <div
         className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4"
         role="alert"
       >
-        <p className="text-sm">{this.props.errors.ex.data}</p>
+        <p className="text-sm">{errors.ex.data}</p>
       </div>
     );
   };
 
-  render() {
-    return (
-      <Fragment>
-        <Navigation />
-        <div className="mx-auto flex max-w-5xl mt-8">
-          <div className="w-3/5">
-            <div className="bg-white border border-gray-400 rounded mb-6">
-              <div className="p-12 mb-3">
-                <h2 className="mb-6 font-semibold text-3xl">Edit Profile</h2>
-                {this.props.errors.ex && this.renderError()}
-                {this.renderForm()}
-              </div>
+  return (
+    <Fragment>
+      <Navigation />
+      <div className="mx-auto flex max-w-5xl mt-8">
+        <div className="w-3/5">
+          <div className="bg-white border border-gray-400 rounded mb-6">
+            <div className="p-12 mb-3">
+              <h2 className="mb-6 font-semibold text-3xl">Edit Profile</h2>
+              {errors.ex && renderError()}
+              {renderForm()}
             </div>
           </div>
-          <div className="w-2/5 ml-6">
-            <Sidebar />
-          </div>
         </div>
-      </Fragment>
-    );
-  }
-}
+        <div className="w-2/5 ml-6">
+          <Sidebar />
+        </div>
+      </div>
+    </Fragment>
+  );
+};
 
 const mapStateToProps = (state) => {
   const initialValues = getCurrentUser();

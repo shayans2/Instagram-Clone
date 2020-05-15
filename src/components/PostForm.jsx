@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../services/authService";
@@ -7,14 +7,14 @@ import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 
-class PostForm extends Component {
-  state = {
-    formStage: 1,
+const PostForm = ({ errors, handleSubmit, newPost }) => {
+  const [formStage, setFormStage] = useState(1);
+
+  const onSubmit = (formValues) => {
+    newPost(formValues, getCurrentUser()._id);
   };
-  onSubmit = (formValues) => {
-    this.props.newPost(formValues, getCurrentUser()._id);
-  };
-  renderStageOne = () => {
+
+  const renderStageOne = () => {
     return (
       <Fragment>
         <RenderUploader
@@ -25,9 +25,7 @@ class PostForm extends Component {
           currentImage="http://localhost:4000/uploads/default-post.jpg"
         />
         <p
-          onClick={() => {
-            this.setState({ formStage: 2 });
-          }}
+          onClick={() => setFormStage(2)}
           className="text-center font-semibold text-sm text-gray-900 cursor-pointer mt-8"
         >
           Next Step &rarr;
@@ -36,7 +34,7 @@ class PostForm extends Component {
     );
   };
 
-  renderStageTwo = () => {
+  const renderStageTwo = () => {
     return (
       <Fragment>
         <Field
@@ -57,9 +55,7 @@ class PostForm extends Component {
         />
         <RenderButton text="Post" bgColor="blue" textColor="white" />
         <p
-          onClick={() => {
-            this.setState({ formStage: 1 });
-          }}
+          onClick={() => setFormStage(1)}
           className="text-center font-semibold text-sm text-gray-900 cursor-pointer mt-5"
         >
           &larr; Go back
@@ -68,44 +64,42 @@ class PostForm extends Component {
     );
   };
 
-  renderError = () => {
+  const renderError = () => {
     return (
       <div
         className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4"
         role="alert"
       >
-        <p className="text-sm">{this.props.errors.ex.data}</p>
+        <p className="text-sm">{errors.ex.data}</p>
       </div>
     );
   };
 
-  render() {
-    return (
-      <Fragment>
-        <Navigation />
-        <div className="mx-auto flex max-w-5xl mt-8">
-          <div className="w-3/5">
-            <div className="bg-white border border-gray-400 rounded mb-6">
-              <div className="p-12 mb-3">
-                <h2 className="mb-6 font-semibold text-3xl">New Post</h2>
+  return (
+    <Fragment>
+      <Navigation />
+      <div className="mx-auto flex max-w-5xl mt-8">
+        <div className="w-3/5">
+          <div className="bg-white border border-gray-400 rounded mb-6">
+            <div className="p-12 mb-3">
+              <h2 className="mb-6 font-semibold text-3xl">New Post</h2>
 
-                {this.props.errors.ex && this.renderError()}
+              {errors.ex && renderError()}
 
-                <form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                  {this.state.formStage === 1 && this.renderStageOne()}
-                  {this.state.formStage === 2 && this.renderStageTwo()}
-                </form>
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {formStage === 1 && renderStageOne()}
+                {formStage === 2 && renderStageTwo()}
+              </form>
             </div>
           </div>
-          <div className="w-2/5 ml-6">
-            <Sidebar />
-          </div>
         </div>
-      </Fragment>
-    );
-  }
-}
+        <div className="w-2/5 ml-6">
+          <Sidebar />
+        </div>
+      </div>
+    </Fragment>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
