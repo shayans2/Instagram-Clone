@@ -1,14 +1,16 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { userSignup } from "../actions";
 import { Link } from "react-router-dom";
 import { RenderButton, renderInput } from "./common/RenderForm";
 import { signupValidation } from "../utility/formValidation";
 
-const Signup = ({ userSignup, handleSubmit, errors }) => {
+const Signup = ({ handleSubmit }) => {
+  const errors = useSelector((state) => state.errors);
+  const dispatch = useDispatch();
   const onSubmit = (formValues) => {
-    userSignup(formValues);
+    dispatch(userSignup(formValues));
   };
 
   const renderForm = () => {
@@ -70,15 +72,7 @@ const Signup = ({ userSignup, handleSubmit, errors }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors,
-  };
-};
-
-export default connect(mapStateToProps, { userSignup })(
-  reduxForm({
-    form: "signupForm",
-    validate: signupValidation,
-  })(Signup)
-);
+export default reduxForm({
+  form: "signupForm",
+  validate: signupValidation,
+})(Signup);

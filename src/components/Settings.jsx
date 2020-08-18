@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { userEdit } from "../actions";
 import Navigation from "./common/Navigation";
@@ -8,9 +8,11 @@ import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 import { settingsValidation } from "../utility/formValidation";
 
-const Settings = ({ errors, userEdit, handleSubmit }) => {
+const Settings = ({ handleSubmit }) => {
+  const errors = useSelector((state) => state.errors);
+  const disptach = useDispatch();
   const onSubmit = (formValues) => {
-    userEdit(formValues, getCurrentUser()._id);
+    disptach(userEdit(formValues, getCurrentUser()._id));
   };
 
   const renderForm = () => {
@@ -73,19 +75,8 @@ const Settings = ({ errors, userEdit, handleSubmit }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const initialValues = getCurrentUser();
-  delete initialValues.followers;
-  delete initialValues.following;
-  return {
-    errors: state.errors,
-    initialValues,
-  };
-};
-
-export default connect(mapStateToProps, { userEdit })(
-  reduxForm({
-    form: "settingsForm",
-    validate: settingsValidation,
-  })(Settings)
-);
+export default reduxForm({
+  form: "settingsForm",
+  validate: settingsValidation,
+  initialValues: getCurrentUser(),
+})(Settings);

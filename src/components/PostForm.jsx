@@ -1,17 +1,19 @@
 import React, { useState, Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { newPost } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 
-const PostForm = ({ errors, handleSubmit, newPost }) => {
+const PostForm = ({ handleSubmit }) => {
   const [formStage, setFormStage] = useState(1);
+  const errors = useSelector((state) => state.errors);
+  const dispatch = useDispatch();
 
   const onSubmit = (formValues) => {
-    newPost(formValues, getCurrentUser()._id);
+    dispatch(newPost(formValues, getCurrentUser()._id));
   };
 
   const renderStageOne = () => {
@@ -101,15 +103,7 @@ const PostForm = ({ errors, handleSubmit, newPost }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors,
-  };
-};
-
-export default connect(mapStateToProps, { newPost })(
-  reduxForm({
-    form: "newPostForm",
-    enableReinitialize: true,
-  })(PostForm)
-);
+export default reduxForm({
+  form: "newPostForm",
+  enableReinitialize: true,
+})(PostForm);
