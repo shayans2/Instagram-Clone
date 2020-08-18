@@ -27,14 +27,13 @@ const Uploader = ({
     let file = e.target.files[0];
     if (file && file.size / 1024 / 1024 > 3) {
       setError(true);
+      return;
     } else {
       setError(false);
     }
     reader.onloadend = () => {
-      if (!error) {
-        input.onChange(file);
-        setFile(reader.result);
-      }
+      input.onChange(file);
+      setFile(reader.result);
     };
 
     try {
