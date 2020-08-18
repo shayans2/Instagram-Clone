@@ -15,6 +15,7 @@ const Profile = ({ match }) => {
   useEffect(() => {
     dispatch(fetchProfilePosts(match.params.id));
     dispatch(fetchUser(match.params.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderPosts = () => {
