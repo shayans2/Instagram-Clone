@@ -3,7 +3,7 @@ const UserService = require("../services/userService");
 const auth = require("../middlewares/auth");
 const validateObjectId = require("../middlewares/validateObjectId");
 const router = express.Router();
-const profilePicture = require("../config/multer");
+const profilePicture = require("../config/multer/profile");
 
 router.get("/:id", validateObjectId, UserService.fetchUser);
 router.post("/new", UserService.register);

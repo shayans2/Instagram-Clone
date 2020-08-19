@@ -11,24 +11,15 @@ const profileStorage = multer.diskStorage({
   },
 });
 
-const postStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads/posts");
-  },
-  filename: function (req, file, cb) {
-    let fileName = file.originalname;
-    fileName = Date.now() + ".jpg";
-    cb(null, fileName);
-  },
-});
-
 function fileFilter(req, file, cb) {
-  const type = file.mimetype;
-  if (type == "image/jpeg") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+  setTimeout(() => {
+    const type = file.mimetype;
+    if (type == "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  }, 5000);
 }
 
 const profilePicture = multer({
@@ -40,11 +31,4 @@ const profilePicture = multer({
   // },
 });
 
-const postImage = multer({
-  dest: "./",
-  storage: postStorage,
-  fileFilter,
-});
-
 module.exports = profilePicture;
-module.exports = postImage;

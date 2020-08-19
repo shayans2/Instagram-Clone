@@ -3,7 +3,7 @@ const router = express.Router();
 const PostService = require("../services/postService");
 const auth = require("../middlewares/auth");
 const validateObjectId = require("../middlewares/validateObjectId");
-const postImage = require("../config/multer");
+const postImage = require("../config/multer/post");
 
 router.get(
   "/followers/:id/:page/:limit",
