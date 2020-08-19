@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
@@ -7,13 +7,22 @@ import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 import { settingsValidation } from "../utility/formValidation";
+import { useEffect } from "react";
 
 const Settings = ({ handleSubmit }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const errors = useSelector((state) => state.errors);
+  const data = useSelector((state) => state.users);
   const disptach = useDispatch();
+
   const onSubmit = (formValues) => {
     disptach(userEdit(formValues, getCurrentUser()._id));
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
 
   const renderForm = () => {
     return (
@@ -38,7 +47,11 @@ const Settings = ({ handleSubmit }) => {
         />
         <Field name="website" component={renderInput} label="Website" />
         <Field name="email" component={renderInput} label="Email" />
-        <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
+        {isLoading ? (
+          <RenderButton text="Saving..." disabled />
+        ) : (
+          <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
+        )}
       </form>
     );
   };

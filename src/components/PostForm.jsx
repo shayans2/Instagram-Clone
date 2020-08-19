@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from "react";
-import { reduxForm, Field } from "redux-form";
+import React, { useState, useEffect, Fragment } from "react";
+import { reduxForm, Field, formValueSelector } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { newPost } from "../actions";
@@ -9,12 +9,22 @@ import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 
 const PostForm = ({ handleSubmit }) => {
   const [formStage, setFormStage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const errors = useSelector((state) => state.errors);
+  const data = useSelector((state) => state.posts);
+  const postImage = useSelector((state) =>
+    formValueSelector("newPostForm")(state, "postImage")
+  );
   const dispatch = useDispatch();
 
   const onSubmit = (formValues) => {
     dispatch(newPost(formValues, getCurrentUser()._id));
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
 
   const renderStageOne = () => {
     return (
@@ -55,12 +65,16 @@ const PostForm = ({ handleSubmit }) => {
           placeholder="Post caption"
           maxLength="400"
         />
-        <RenderButton text="Post" bgColor="blue" textColor="white" />
+        {postImage !== undefined && isLoading ? (
+          <RenderButton text="Saving..." disabled />
+        ) : (
+          <RenderButton text="Share" bgColor="blue" textColor="white" />
+        )}
         <p
           onClick={() => setFormStage(1)}
           className="text-center font-semibold text-sm text-gray-900 cursor-pointer mt-5"
         >
-          &larr; Go back
+          &larr; Change image
         </p>
       </Fragment>
     );

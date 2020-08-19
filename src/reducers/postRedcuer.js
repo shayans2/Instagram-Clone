@@ -39,6 +39,7 @@ export const postReducer = (state = initialState, action) => {
           ...state.timeline,
           [action.payload._id]: action.payload,
         },
+        isLoading: action.payload,
       };
 
     case FETCH_PROFILE_POSTS:

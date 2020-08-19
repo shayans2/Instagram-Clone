@@ -43,7 +43,17 @@ export const RenderUploader = ({
   );
 };
 
-export const RenderButton = ({ text, bgColor, textColor }) => {
+export const RenderButton = ({ text, bgColor, textColor, disabled }) => {
+  if (disabled) {
+    return (
+      <button
+        className={`bg-gray-600 text-gray-800 font-bold text-sm py-2 px-4 rounded w-full cursor-wait`}
+        disabled
+      >
+        {text}
+      </button>
+    );
+  }
   return (
     <button
       className={`bg-${bgColor}-600 text-${textColor} font-bold text-sm py-2 px-4 rounded w-full`}

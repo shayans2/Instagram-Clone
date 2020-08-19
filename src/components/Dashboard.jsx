@@ -6,18 +6,21 @@ import { getCurrentUser } from "../services/authService";
 import Post from "./common/Post";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
+import { useState } from "react";
 
 const Dashboard = () => {
   const posts = useSelector((state) => Object.values(state.posts.timeline));
   const postsCount = useSelector((state) => state.posts.timelinePostsCount);
-  const currentPage = useSelector((state) => state.posts.currentPage);
   const pageSize = useSelector((state) => state.posts.pageSize);
+  const [currentPage, setPage] = useState(
+    useSelector((state) => state.posts.currentPage)
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTimeline(getCurrentUser()._id, currentPage, pageSize));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentPage]);
 
   const renderPosts = () => {
     if (posts.length === 0) {
@@ -64,9 +67,7 @@ const Dashboard = () => {
                   ? "inline-block border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white"
                   : "inline-block border border-gray rounded hover:border-gray-400 text-blue-500 bg-gray-200 py-1 px-3 cursor-pointer"
               }
-              onClick={() =>
-                dispatch(fetchTimeline(getCurrentUser()._id, page, pageSize))
-              }
+              onClick={() => setPage(page)}
             >
               {page}
             </p>

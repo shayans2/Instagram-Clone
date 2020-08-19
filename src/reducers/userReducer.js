@@ -18,7 +18,11 @@ export const userReducer = (state = {}, action) => {
       return { ...state, currentUser: authService.getCurrentUser() };
     case USER_EDIT_SUCCESS:
       authService.loginWithJwt(action.payload);
-      return { ...state, currentUser: authService.getCurrentUser() };
+      return {
+        ...state,
+        currentUser: authService.getCurrentUser(),
+        isLoading: action.payload,
+      };
     case FETCH_CURRENT_USER:
       // authService.logout();
       return { ...state, currentUser: authService.getCurrentUser() };
