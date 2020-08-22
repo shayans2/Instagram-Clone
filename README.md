@@ -1,7 +1,7 @@
 # Instagram Clone
 Instagram clone with MERN stack
 
-## Notice ⭕️
+## Notice 👾
 Please check "Client" branch for React and "Server" branch for Node
 
 ## Usage
