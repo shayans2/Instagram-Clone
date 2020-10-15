@@ -22,7 +22,7 @@ npm install
 ```
 and fire up the Server with
 ```bash
-nodemon app
+npm start
 ```
 
 ## Features pending:
