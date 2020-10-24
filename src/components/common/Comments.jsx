@@ -5,7 +5,7 @@ import { fetchComments, postComment } from "../../actions";
 import { getCurrentUser } from "../../services/authService";
 import { RenderButton } from "../common/RenderForm";
 
-const Comments = ({ postId, handleSubmit, ...props }) => {
+const Comments = ({ postId, handleSubmit }) => {
   const comments = useSelector((state) => state.comments.postComment);
   const dispatch = useDispatch();
 

@@ -48,7 +48,7 @@ const Profile = ({ match }) => {
               handleFollow(getCurrentUser()._id, userDetails._id, "unfollow")
             )
           }
-          className="bg-transparent text-gray-800 font-semibold  py-2 px-4 border border-gray-500 hover:border-gray-800 rounded"
+          className="bg-transparent text-gray-800 font-semibold py-1 px-2 md:py-2 md:px-4 border border-gray-500 hover:border-gray-800 rounded"
         >
           <i className="fa fa-check" aria-hidden="true"></i> Following
         </button>
@@ -61,7 +61,7 @@ const Profile = ({ match }) => {
               handleFollow(getCurrentUser()._id, userDetails._id, "follow")
             )
           }
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded"
         >
           Follow
         </button>
@@ -85,21 +85,20 @@ const Profile = ({ match }) => {
       <Navigation />
       <div className="mx-auto max-w-4xl">
         <div className="mt-6 mb-4">
-          <div className="pl-4 pt-3 mb-8">
+          <div className="pl-4 pt-3 mb-8 ">
             <img
               src={profileImage}
-              className="h-40 rounded-full float-left mr-24"
+              className="md:h-40 h-20 rounded-full sm:float-left mr-5 sm:mr-10 md:mr-24"
               alt="Profile picture"
               aria-hidden="true"
             />
-
             <div>
-              <span className="font-light text-3xl text-gray-900">
+              <div className="font-light text-xl md:text-3xl text-gray-900 mb-2">
                 {username}
-              </span>
-              <span className="float-right mr-20">
+              </div>
+              <div className="sm:float-right sm:mr-20">
                 {match.params.id !== getCurrentUser()._id ? renderFollow() : ""}
-              </span>
+              </div>
             </div>
             <div className="mt-4">
               <ul>

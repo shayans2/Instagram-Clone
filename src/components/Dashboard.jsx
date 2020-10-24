@@ -80,12 +80,12 @@ const Dashboard = () => {
   return (
     <Fragment>
       <Navigation />
-      <div className="mx-auto flex max-w-5xl mt-8">
-        <div className="w-3/5">
+      <div className="mx-auto flex flex-col md:flex-row max-w-5xl mt-8">
+        <div className="md:w-3/5 mx-5 md:mx-0">
           {renderPosts()}
           {renderPagination()}
         </div>
-        <div className="w-2/5 ml-5">
+        <div className="md:w-2/5 md:ml-5 md:mb-0 mx-5 mb-3">
           <Sidebar />
         </div>
       </div>

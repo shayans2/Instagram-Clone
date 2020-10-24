@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => useMemo(() => {
   const { _id, fullname, username, profileImage } = getCurrentUser();
-  return (
+  return ( 
     <Fragment>
       <div className="pl-4 mb-8">
         <img

@@ -31,7 +31,7 @@ const PostForm = ({ handleSubmit }) => {
       <Fragment>
         <RenderUploader
           name="postImage"
-          imageClassname="mx-auto h-128 w-128 mt-4 mb-8"
+          imageClassname="mx-auto h-50 w-50 md:h-128 md:w-128 mt-4 mb-8"
           allowedFileExtensions="image/jpeg"
           buttonText="Choose an Image"
           currentImage="http://localhost:4000/uploads/default-post.jpg"
@@ -94,8 +94,8 @@ const PostForm = ({ handleSubmit }) => {
   return (
     <Fragment>
       <Navigation />
-      <div className="mx-auto flex max-w-5xl mt-8">
-        <div className="w-3/5">
+      <div className="mx-auto flex flex-col md:flex-row max-w-5xl mt-8">
+        <div className="md:w-3/5 mx-5 md:mx-0">
           <div className="bg-white border border-gray-400 rounded mb-6">
             <div className="p-12 mb-3">
               <h2 className="mb-6 font-semibold text-3xl">New Post</h2>
@@ -107,7 +107,7 @@ const PostForm = ({ handleSubmit }) => {
             </div>
           </div>
         </div>
-        <div className="w-2/5 ml-6">
+        <div className="md:w-2/5 md:ml-5 md:mb-0 mx-5 mb-3">
           <Sidebar />
         </div>
       </div>
