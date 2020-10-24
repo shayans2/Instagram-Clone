@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useMemo, Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
@@ -35,7 +35,7 @@ const Settings = ({ handleSubmit }) => {
           currentImage={getCurrentUser().profileImage}
         />
         <Field name="fullname" component={renderInput} label="Full name" />
-        <Field name="username" component={renderInput} label="Username" />
+        <Field name="username" component={renderInput} label="Username" disabled />
         <label className="font-semibold text-gray-800 text-sm">Bio</label>
         <Field
           className="mt-1 mb-2 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
@@ -76,7 +76,7 @@ const Settings = ({ handleSubmit }) => {
             <div className="p-12 mb-3">
               <h2 className="mb-6 font-semibold text-3xl">Edit Profile</h2>
               {errors.ex && renderError()}
-              {renderForm()}
+              {useMemo(() => renderForm(), []) }
             </div>
           </div>
         </div>

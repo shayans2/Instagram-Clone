@@ -6,26 +6,22 @@ import {
   USER_EDIT_SUCCESS,
   HANDLE_USER_FOLLOW,
 } from "../actions/types";
-import authService from "../services/authService";
+import { getCurrentUser } from "../services/authService";
 
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_SIGNUP_SUCCESS:
-      authService.loginWithJwt(action.payload);
-      return { ...state, currentUser: authService.getCurrentUser() };
+      return { ...state, currentUser: getCurrentUser() };
     case USER_LOGIN_SUCCESS:
-      authService.loginWithJwt(action.payload);
-      return { ...state, currentUser: authService.getCurrentUser() };
+      return { ...state, currentUser: getCurrentUser() };
     case USER_EDIT_SUCCESS:
-      authService.loginWithJwt(action.payload);
       return {
         ...state,
-        currentUser: authService.getCurrentUser(),
+        currentUser: getCurrentUser(),
         isLoading: action.payload,
       };
     case FETCH_CURRENT_USER:
-      // authService.logout();
-      return { ...state, currentUser: authService.getCurrentUser() };
+      return { ...state, currentUser: getCurrentUser() };
     case FETCH_USER:
       return { ...state, userDetails: action.payload };
     case HANDLE_USER_FOLLOW:

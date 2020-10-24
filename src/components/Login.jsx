@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { reduxForm, Field } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../actions";
@@ -12,6 +12,7 @@ const Login = ({ handleSubmit }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Delete latest sessions
     authService.logout();
   }, []);
 
@@ -51,7 +52,7 @@ const Login = ({ handleSubmit }) => {
         <h1 className="text-center text-2xl text-gray-900">Instagram Clone</h1>
         <div className="p-8">
           {errors.ex && renderError()}
-          {renderForm()}
+          {useMemo(() => renderForm(), [])}
           <p className="text-center text-blue-800 mt-5 font-light text-xs">
             Forgot password?
           </p>
@@ -62,7 +63,6 @@ const Login = ({ handleSubmit }) => {
         <p className="text-center text-gray-800 font-light text-xs">
           Don't have an account?
           <Link to="/signup" className="font-semibold text-blue-500">
-            {" "}
             Sign up
           </Link>
         </p>

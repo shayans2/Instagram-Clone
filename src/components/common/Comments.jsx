@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Field, reduxForm } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchComments, postComment } from "../../actions";
 import { getCurrentUser } from "../../services/authService";
 import { RenderButton } from "../common/RenderForm";
 
-const Comments = ({ postId, handleSubmit }) => {
+const Comments = ({ postId, handleSubmit, ...props }) => {
   const comments = useSelector((state) => state.comments.postComment);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchComments(postId));
-  });
+  }, []);
 
   const onSubmit = (formValues) => {
     dispatch(postComment(formValues, postId, getCurrentUser()._id));
@@ -32,10 +32,9 @@ const Comments = ({ postId, handleSubmit }) => {
       ));
     }
   };
-  return (
-    <div className="bg-white border border-b rounded px-5 py-3">
-      <span className="font-semibold text-gray-600 text-sm">Comments</span>
-      <div className="pl-2 pt-3 mb-3">{renderComments()}</div>
+
+  const renderForm = () => {
+    return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field
           className="mt-3 mb-2 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
@@ -46,7 +45,15 @@ const Comments = ({ postId, handleSubmit }) => {
           maxLength="400"
         />
         <RenderButton text="Send" bgColor="blue" textColor="white" />
-      </form>
+    </form>
+    )
+  }
+
+  return (
+    <div className="bg-white border border-b rounded px-5 py-3">
+      <span className="font-semibold text-gray-600 text-sm">Comments</span>
+      <div className="pl-2 pt-3 mb-3">{renderComments()}</div>
+      {useMemo(() => renderForm(), [])}
     </div>
   );
 };

@@ -13,6 +13,7 @@ const Post = ({
   likedByArray,
   currentUserId,
 }) => {
+
   const dispatch = useDispatch();
   const rednerLike = () => {
     if (likedByArray.includes(currentUserId)) {
@@ -42,7 +43,6 @@ const Post = ({
           alt={userId.username}
           aria-hidden="true"
         />
-
         <div>
           <span className="font-semibold text-sm">
             <Link to={`/profile/${userId._id}`}>{userId.username}</Link>

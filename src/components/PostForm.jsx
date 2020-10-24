@@ -99,9 +99,7 @@ const PostForm = ({ handleSubmit }) => {
           <div className="bg-white border border-gray-400 rounded mb-6">
             <div className="p-12 mb-3">
               <h2 className="mb-6 font-semibold text-3xl">New Post</h2>
-
               {errors.ex && renderError()}
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 {formStage === 1 && renderStageOne()}
                 {formStage === 2 && renderStageTwo()}

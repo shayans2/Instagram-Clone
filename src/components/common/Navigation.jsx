@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = () => useMemo(() => {
   return (
     <div className="h-16 bg-white border border-b mx-auto items-center justify-center text-center flex flex-wrap">
       <div className="w-1/3">
@@ -38,6 +38,6 @@ const Navigation = () => {
       </div>
     </div>
   );
-};
+}, []);
 
 export default Navigation;

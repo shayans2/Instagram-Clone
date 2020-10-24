@@ -21,7 +21,6 @@ const SinglePost = ({ match }) => {
   return (
     <Fragment>
       <Navigation />
-
       <div className="mx-auto flex max-w-5xl mt-8">
         <div className="w-3/5">
           <Post

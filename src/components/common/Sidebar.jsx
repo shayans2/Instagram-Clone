@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React, { useMemo, Fragment } from "react";
 import { getCurrentUser } from "../../services/authService";
 import { Link } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = () => useMemo(() => {
   const { _id, fullname, username, profileImage } = getCurrentUser();
   return (
     <Fragment>
@@ -33,6 +33,6 @@ const Sidebar = () => {
       </div>
     </Fragment>
   );
-};
+}, []);
 
 export default Sidebar;

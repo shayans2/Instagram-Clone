@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProfilePosts, fetchUser, handleFollow } from "../actions";
+import { fetchProfilePosts, fetchSingleUser, handleFollow } from "../actions";
 import { Link } from "react-router-dom";
 import { getCurrentUser } from "../services/authService";
 import Navigation from "./common/Navigation";
@@ -14,11 +14,22 @@ const Profile = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchProfilePosts(match.params.id));
-    dispatch(fetchUser(match.params.id));
+    dispatch(fetchSingleUser(match.params.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderPosts = () => {
+    if (profilePosts.length === 0)
+      return (
+        <div className="mx-auto">
+          <h2 className="mt-6 font-bold text-3xl text-gray-900">
+            No Posts Yet{" "}
+            <span role="img" aria-label="sad">
+              🥺
+            </span>
+          </h2>
+        </div>
+      );
     return profilePosts.map((post) => (
       <div className="w-1/3 px-2 mb-4" key={post._id}>
         <Link to={`/posts/${post._id}`}>
