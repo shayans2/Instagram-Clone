@@ -1,5 +1,5 @@
 {
-  "db": "mongodb://localhost/instagram",
+  "db": "mongodb://127.0.0.1/instagram",
   "URL": "http://localhost:4000/",
   "port": "4000",
   "jwtPrivateKey": "instagram_clone"
