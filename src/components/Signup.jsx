@@ -18,7 +18,7 @@ const Signup = ({ handleSubmit }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field name="fullname" component={renderInput} label="Full name" />
         <Field name="username" component={renderInput} label="Username" />
-        <Field name="email" component={renderInput} label="Email" />
+        <Field name="email" component={renderInput} label="Email" type="email" />
         <Field
           name="password"
           type="password"
@@ -51,7 +51,7 @@ const Signup = ({ handleSubmit }) => {
           </p>
           {errors.ex && renderError()}
           {useMemo(() => renderForm(), [])}
-          <p className="text-sm text-center text-gray-800">
+          <p className="text-sm text-center text-gray-800 mt-3">
             By signing up, you agree to our{" "}
             <b>Terms, Data Policy and Cookies </b>
             Policy.

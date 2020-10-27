@@ -12,7 +12,7 @@ const Login = ({ handleSubmit }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Delete latest sessions
+    // Remove latest session
     authService.logout();
   }, []);
 
@@ -23,7 +23,7 @@ const Login = ({ handleSubmit }) => {
   const renderForm = () => {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Field name="email" component={renderInput} label="Email" />
+        <Field name="email" component={renderInput} label="Email" type="email" />
         <Field
           name="password"
           type="password"

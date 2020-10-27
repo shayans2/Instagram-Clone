@@ -46,7 +46,7 @@ const Settings = ({ handleSubmit }) => {
           maxLength="400"
         />
         <Field name="website" component={renderInput} label="Website" />
-        <Field name="email" component={renderInput} label="Email" />
+        <Field name="email" component={renderInput} label="Email" type="email" />
         {isLoading ? (
           <RenderButton text="Saving..." disabled />
         ) : (
