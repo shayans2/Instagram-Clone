@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../services/authService";
