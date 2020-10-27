@@ -7,10 +7,11 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const posts = require("./routes/posts");
 const comments = require("./routes/comments");
+require('dotenv').config()
 
 // Database Config
 mongoose
-  .connect(config.get("db"), {
+  .connect(process.env.MONGODB_URI || config.get("db"), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -19,7 +20,7 @@ mongoose
   .then(console.log("Connected to database"))
   .catch((err) => console.log(new Error(err)));
 
-let port = config.get("port");
+const port = process.env.PORT || config.get("port");
 app.listen(port, console.log(`Listening on port ${port}...`));
 
 // Middlewares
