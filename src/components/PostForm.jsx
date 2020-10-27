@@ -1,25 +1,37 @@
-import React, { useState, Fragment } from "react";
-import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import React, { useState, useEffect, Fragment } from "react";
+import { reduxForm, Field, formValueSelector } from "redux-form";
+import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { newPost } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 
-const PostForm = ({ errors, handleSubmit, newPost }) => {
+const PostForm = ({ handleSubmit }) => {
   const [formStage, setFormStage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const errors = useSelector((state) => state.errors);
+  const data = useSelector((state) => state.posts);
+  const postImage = useSelector((state) =>
+    formValueSelector("newPostForm")(state, "postImage")
+  );
+  const dispatch = useDispatch();
 
   const onSubmit = (formValues) => {
-    newPost(formValues, getCurrentUser()._id);
+    dispatch(newPost(formValues, getCurrentUser()._id));
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
 
   const renderStageOne = () => {
     return (
       <Fragment>
         <RenderUploader
           name="postImage"
-          imageClassname="mx-auto h-128 w-128 mt-4 mb-8"
+          imageClassname="mx-auto h-50 w-50 md:h-128 md:w-128 mt-4 mb-8"
           allowedFileExtensions="image/jpeg"
           buttonText="Choose an Image"
           currentImage="http://localhost:4000/uploads/default-post.jpg"
@@ -53,12 +65,16 @@ const PostForm = ({ errors, handleSubmit, newPost }) => {
           placeholder="Post caption"
           maxLength="400"
         />
-        <RenderButton text="Post" bgColor="blue" textColor="white" />
+        {postImage !== undefined && isLoading ? (
+          <RenderButton text="Saving..." disabled />
+        ) : (
+          <RenderButton text="Share" bgColor="blue" textColor="white" />
+        )}
         <p
           onClick={() => setFormStage(1)}
           className="text-center font-semibold text-sm text-gray-900 cursor-pointer mt-5"
         >
-          &larr; Go back
+          &larr; Change image
         </p>
       </Fragment>
     );
@@ -78,14 +94,12 @@ const PostForm = ({ errors, handleSubmit, newPost }) => {
   return (
     <Fragment>
       <Navigation />
-      <div className="mx-auto flex max-w-5xl mt-8">
-        <div className="w-3/5">
+      <div className="mx-auto flex flex-col md:flex-row max-w-5xl mt-8">
+        <div className="md:w-3/5 mx-5 md:mx-0">
           <div className="bg-white border border-gray-400 rounded mb-6">
             <div className="p-12 mb-3">
               <h2 className="mb-6 font-semibold text-3xl">New Post</h2>
-
               {errors.ex && renderError()}
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 {formStage === 1 && renderStageOne()}
                 {formStage === 2 && renderStageTwo()}
@@ -93,7 +107,7 @@ const PostForm = ({ errors, handleSubmit, newPost }) => {
             </div>
           </div>
         </div>
-        <div className="w-2/5 ml-6">
+        <div className="md:w-2/5 md:ml-5 md:mb-0 mx-5 mb-3">
           <Sidebar />
         </div>
       </div>
@@ -101,15 +115,7 @@ const PostForm = ({ errors, handleSubmit, newPost }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors,
-  };
-};
-
-export default connect(mapStateToProps, { newPost })(
-  reduxForm({
-    form: "newPostForm",
-    enableReinitialize: true,
-  })(PostForm)
-);
+export default reduxForm({
+  form: "newPostForm",
+  enableReinitialize: true,
+})(PostForm);

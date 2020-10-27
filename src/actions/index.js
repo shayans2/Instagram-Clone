@@ -1,5 +1,6 @@
 import * as actions from "./types";
 import httpService from "../services/httpService";
+import { loginWithJwt } from "../services/authService";
 
 export const userSignup = (formValues) => async (dispatch) => {
   try {
@@ -8,6 +9,7 @@ export const userSignup = (formValues) => async (dispatch) => {
       type: actions.USER_SIGNUP_SUCCESS,
       payload: response.headers["x-auth-token"],
     });
+    loginWithJwt(response.headers["x-auth-token"]);
     window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: actions.USER_SIGNUP_FAIL, payload: err.response });
@@ -20,7 +22,8 @@ export const userLogin = (formValues) => async (dispatch) => {
     dispatch({
       type: actions.USER_LOGIN_SUCCESS,
       payload: response.headers["x-auth-token"],
-    });
+    }); 
+    loginWithJwt(response.headers["x-auth-token"]);
     window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: actions.USER_LOGIN_FAIL, payload: err.response });
@@ -32,13 +35,13 @@ export const userEdit = (formValues, userId) => async (dispatch) => {
   for (let [key, value] of Object.entries(formValues)) {
     formData.append(key, value);
   }
-
   try {
     const response = await httpService.put(`/users/edit/${userId}`, formData);
     dispatch({
       type: actions.USER_EDIT_SUCCESS,
       payload: response.headers["x-auth-token"],
     });
+    loginWithJwt(response.headers["x-auth-token"]);
     window.location = "/dashboard";
   } catch (err) {
     dispatch({ type: actions.USER_EDIT_FAIL, payload: err.response });
@@ -49,7 +52,7 @@ export const fetchCurrentUser = () => async (dispatch) => {
   dispatch({ type: actions.FETCH_CURRENT_USER });
 };
 
-export const fetchUser = (userId) => async (dispatch) => {
+export const fetchSingleUser = (userId) => async (dispatch) => {
   const response = await httpService.get(`/users/${userId}`);
   dispatch({ type: actions.FETCH_USER, payload: response.data });
 };

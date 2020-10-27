@@ -35,8 +35,8 @@ const App = () => (
         <ProtectedRoute exact path="/dashboard" component={Dashboard} />
         <ProtectedRoute exact path="/post/new" component={PostForm} />
         <ProtectedRoute exact path="/settings" component={Settings} />
-        <Route exact path="/posts/:id" component={SinglePost} />
-        <Route exact path="/profile/:id" component={Profile} />
+        <ProtectedRoute exact path="/posts/:id" component={SinglePost} />
+        <ProtectedRoute exact path="/profile/:id" component={Profile} />
         <Route path="/not-found" component={NotFound} />
         <Redirect exact from="/" to="/login" />
         <Redirect to="/not-found" />

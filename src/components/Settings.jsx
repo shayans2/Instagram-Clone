@@ -1,17 +1,32 @@
+<<<<<<< HEAD
 import React, { Fragment } from "react";
+=======
+import React, { useState, useMemo, Fragment } from "react";
+>>>>>>> 22e3283532cccd30da000f8b2dd77017ea36fb92
 import { reduxForm, Field } from "redux-form";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";
 import { userEdit } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
 import { settingsValidation } from "../utility/formValidation";
+import { useEffect } from "react";
 
-const Settings = ({ errors, userEdit, handleSubmit }) => {
+const Settings = ({ handleSubmit }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const errors = useSelector((state) => state.errors);
+  const data = useSelector((state) => state.users);
+  const disptach = useDispatch();
+
   const onSubmit = (formValues) => {
-    userEdit(formValues, getCurrentUser()._id);
+    disptach(userEdit(formValues, getCurrentUser()._id));
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
 
   const renderForm = () => {
     return (
@@ -24,7 +39,7 @@ const Settings = ({ errors, userEdit, handleSubmit }) => {
           currentImage={getCurrentUser().profileImage}
         />
         <Field name="fullname" component={renderInput} label="Full name" />
-        <Field name="username" component={renderInput} label="Username" />
+        <Field name="username" component={renderInput} label="Username" disabled />
         <label className="font-semibold text-gray-800 text-sm">Bio</label>
         <Field
           className="mt-1 mb-2 appearance-none border rounded-sm w-full py-3 px-3 text-gray-800 leading-tight focus:outline-none focus:border-gray-600 border-gray-400 text-xs bg-gray-100"
@@ -36,7 +51,11 @@ const Settings = ({ errors, userEdit, handleSubmit }) => {
         />
         <Field name="website" component={renderInput} label="Website" />
         <Field name="email" component={renderInput} label="Email" />
-        <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
+        {isLoading ? (
+          <RenderButton text="Saving..." disabled />
+        ) : (
+          <RenderButton text="Edit Profile" bgColor="blue" textColor="white" />
+        )}
       </form>
     );
   };
@@ -51,21 +70,23 @@ const Settings = ({ errors, userEdit, handleSubmit }) => {
       </div>
     );
   };
-
+ 
   return (
     <Fragment>
       <Navigation />
-      <div className="mx-auto flex max-w-5xl mt-8">
-        <div className="w-3/5">
+      <div className="mx-auto flex flex-col md:flex-row max-w-5xl mt-8">
+        <div className="md:w-3/5 mx-5 md:mx-0">
           <div className="bg-white border border-gray-400 rounded mb-6">
             <div className="p-12 mb-3">
               <h2 className="mb-6 font-semibold text-3xl">Edit Profile</h2>
               {errors.ex && renderError()}
-              {renderForm()}
+              {useMemo(() => renderForm()
+              // eslint-disable-next-line react-hooks/exhaustive-deps
+              , []) }
             </div>
           </div>
         </div>
-        <div className="w-2/5 ml-6">
+        <div className="md:w-2/5 md:ml-5 md:mb-0 mx-5 mb-3">
           <Sidebar />
         </div>
       </div>
@@ -73,19 +94,8 @@ const Settings = ({ errors, userEdit, handleSubmit }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const initialValues = getCurrentUser();
-  delete initialValues.followers;
-  delete initialValues.following;
-  return {
-    errors: state.errors,
-    initialValues,
-  };
-};
-
-export default connect(mapStateToProps, { userEdit })(
-  reduxForm({
-    form: "settingsForm",
-    validate: settingsValidation,
-  })(Settings)
-);
+export default reduxForm({
+  form: "settingsForm",
+  validate: settingsValidation,
+  initialValues: getCurrentUser(),
+})(Settings);

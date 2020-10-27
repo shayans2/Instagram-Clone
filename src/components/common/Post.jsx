@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { handleLike } from "../../actions";
 import { Link } from "react-router-dom";
 
@@ -10,15 +10,16 @@ const Post = ({
   postId,
   likedByCount,
   caption,
-  handleLike,
   likedByArray,
   currentUserId,
 }) => {
+
+  const dispatch = useDispatch();
   const rednerLike = () => {
     if (likedByArray.includes(currentUserId)) {
       return (
         <i
-          onClick={() => handleLike(postId, currentUserId, "unlike")}
+          onClick={() => dispatch(handleLike(postId, currentUserId, "unlike"))}
           className="fa fa-heart cursor-pointer fa-lg text-red-600 animated heartBeat"
           aria-hidden="true"
         ></i>
@@ -26,7 +27,7 @@ const Post = ({
     } else {
       return (
         <i
-          onClick={() => handleLike(postId, currentUserId, "like")}
+          onClick={() => dispatch(handleLike(postId, currentUserId, "like"))}
           className="fa fa-heart-o cursor-pointer fa-lg text-gray-900"
           aria-hidden="true"
         ></i>
@@ -42,7 +43,6 @@ const Post = ({
           alt={userId.username}
           aria-hidden="true"
         />
-
         <div>
           <span className="font-semibold text-sm">
             <Link to={`/profile/${userId._id}`}>{userId.username}</Link>
@@ -87,6 +87,4 @@ const Post = ({
   );
 };
 
-export default connect(null, {
-  handleLike,
-})(Post);
+export default Post;

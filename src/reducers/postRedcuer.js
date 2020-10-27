@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   FETCH_TIMELINE,
   FETCH_POST,
@@ -5,7 +6,7 @@ import {
   NEW_POST_SUCCESS,
   FETCH_PROFILE_POSTS,
 } from "../actions/types";
-import _ from "lodash";
+
 const initialState = {
   timeline: [],
   timelinePostsCount: null,
@@ -39,6 +40,7 @@ export const postReducer = (state = initialState, action) => {
           ...state.timeline,
           [action.payload._id]: action.payload,
         },
+        isLoading: action.payload,
       };
 
     case FETCH_PROFILE_POSTS:
