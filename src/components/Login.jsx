@@ -61,7 +61,7 @@ const Login = ({ handleSubmit }) => {
 
       <div className="bg-white shadow-sm p-6 border border-gray-400 mt-3">
         <p className="text-center text-gray-800 font-light text-xs">
-          Don't have an account?
+          Don't have an account? {" "}
           <Link to="/signup" className="font-semibold text-blue-500">
             Sign up
           </Link>

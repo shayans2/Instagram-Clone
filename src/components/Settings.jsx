@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { Fragment } from "react";
-=======
 import React, { useState, useMemo, Fragment } from "react";
->>>>>>> 22e3283532cccd30da000f8b2dd77017ea36fb92
 import { reduxForm, Field } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentUser } from "../services/authService";

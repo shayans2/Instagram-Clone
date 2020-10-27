@@ -60,7 +60,7 @@ const Signup = ({ handleSubmit }) => {
       </div>
       <div className="bg-white shadow-sm p-6 border border-gray-400 mt-3">
         <p className="text-center text-gray-800 font-light text-xs">
-          Have an account?
+          Have an account? {" "}
           <Link to="/login" className="font-semibold text-blue-500">
             Log in
           </Link>
