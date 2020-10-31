@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProfilePosts, fetchSingleUser, handleFollow } from "../actions";
+import { fetchProfilePosts, fetchSingleUser, handleFollow, userReset } from "../actions";
 import { Link } from "react-router-dom";
 import { getCurrentUser } from "../services/authService";
 import Navigation from "./common/Navigation";
@@ -15,6 +15,7 @@ const Profile = ({ match }) => {
   useEffect(() => {
     dispatch(fetchProfilePosts(match.params.id));
     dispatch(fetchSingleUser(match.params.id));
+    return () => userReset()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

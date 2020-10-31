@@ -7,6 +7,7 @@ import Post from "./common/Post";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { useState } from "react";
+import EmptyTimeline from "../dist/images/empty-timeline.jpg"
 
 const Dashboard = () => {
   const posts = useSelector((state) => Object.values(state.posts.timeline));
@@ -27,7 +28,7 @@ const Dashboard = () => {
       return (
         <div>
           <img
-            src="http://localhost:4000/uploads/empty-timeline.jpg"
+            src={EmptyTimeline}
             alt="No posts"
             aria-hidden="true"
           />

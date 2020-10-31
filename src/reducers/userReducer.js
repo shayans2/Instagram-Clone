@@ -5,6 +5,7 @@ import {
   FETCH_USER,
   USER_EDIT_SUCCESS,
   HANDLE_USER_FOLLOW,
+  USER_RESET
 } from "../actions/types";
 import { getCurrentUser } from "../services/authService";
 
@@ -26,6 +27,8 @@ export const userReducer = (state = {}, action) => {
       return { ...state, userDetails: action.payload };
     case HANDLE_USER_FOLLOW:
       return { ...state, userDetails: action.payload };
+    case USER_RESET:
+      return state
     default:
       return state;
   }

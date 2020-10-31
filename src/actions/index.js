@@ -48,6 +48,10 @@ export const userEdit = (formValues, userId) => async (dispatch) => {
   }
 };
 
+export const userReset = () => async (dispatch) => {
+  dispatch({ type: actions.USER_RESET })
+};
+
 export const fetchCurrentUser = () => async (dispatch) => {
   dispatch({ type: actions.FETCH_CURRENT_USER });
 };

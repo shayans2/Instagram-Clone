@@ -6,6 +6,7 @@ import { newPost } from "../actions";
 import Navigation from "./common/Navigation";
 import Sidebar from "./common/Sidebar";
 import { RenderUploader, RenderButton, renderInput } from "./common/RenderForm";
+import DefaultPost from "../dist/images/default-post.jpg"
 
 const PostForm = ({ handleSubmit }) => {
   const [formStage, setFormStage] = useState(1);
@@ -34,7 +35,7 @@ const PostForm = ({ handleSubmit }) => {
           imageClassname="mx-auto h-50 w-50 md:h-128 md:w-128 mt-4 mb-8"
           allowedFileExtensions="image/jpeg"
           buttonText="Choose an Image"
-          currentImage="http://localhost:4000/uploads/default-post.jpg"
+          currentImage={DefaultPost}
         />
         <p
           onClick={() => setFormStage(2)}
