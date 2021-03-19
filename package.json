@@ -35,7 +35,7 @@
   "devDependencies": {
     "animate.css": "^3.7.2",
     "autoprefixer": "^9.7.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "history": "^4.10.1",
     "image-size": "^0.8.3",
     "js-cookie": "^2.2.1",
