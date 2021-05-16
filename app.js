@@ -7,11 +7,11 @@ const users = require("./routes/users");
 const auth = require("./routes/auth");
 const posts = require("./routes/posts");
 const comments = require("./routes/comments");
-require('dotenv').config()
+require("dotenv").config();
 
 // Database Config
 mongoose
-  .connect(process.env.MONGODB_URI || config.get("db"), {
+  .connect(process.env.DB_URL || config.get("db"), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
