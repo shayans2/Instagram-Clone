@@ -16,7 +16,7 @@ docker compose up
 
 If you have Docker installed.
 Otherwise, To run this you need to have Mongodb installed on your machine.
-Clone project then
+Clone the project then
 
 ```bash
 git checkout Client
@@ -36,7 +36,7 @@ git checkout Server
 npm install
 ```
 
-and fire up the Server with
+and launch the Server with
 
 ```bash
 npm start
